@@ -49,7 +49,18 @@ defmodule VdrDemoWeb.HomeLive do
       <section class="space-y-5">
         <div class="card border border-base-300 bg-gradient-to-br from-base-100 to-base-200/40 shadow-sm">
           <div class="card-body gap-4 p-5">
-            <h1 class="card-title text-2xl">Veidrodelis Demo</h1>
+            <div class="flex flex-wrap items-center justify-between gap-3">
+              <h1 class="card-title text-2xl">Veidrodelis Demo</h1>
+              <a
+                id="source-link"
+                href="https://github.com/savonarola/veidrodelis-demo"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="link link-primary text-sm font-medium"
+              >
+                Source code on GitHub
+              </a>
+            </div>
             <div class="grid gap-3 lg:grid-cols-[minmax(0,26rem)_auto] lg:items-end">
               <form phx-change="update_name" phx-submit="update_name" class="w-full max-w-md">
                 <label class="label" for="name">Name</label>
@@ -63,8 +74,7 @@ defmodule VdrDemoWeb.HomeLive do
                 />
               </form>
               <div class="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary lg:justify-self-end">
-                <span class="inline-block size-2 rounded-full bg-primary" />
-                connected to {node()}
+                <span class="inline-block size-2 rounded-full bg-primary" /> connected to {node()}
               </div>
             </div>
           </div>
@@ -172,6 +182,21 @@ defmodule VdrDemoWeb.HomeLive do
             </div>
           </section>
         </div>
+
+        <footer class="mt-2 border-t border-base-300/80 pt-4 text-sm text-base-content/70">
+          <p>
+            Copyright Ilia Averianov.
+            <a
+              id="license-link"
+              href="https://github.com/savonarola/veidrodelis-demo/blob/master/LICENSE"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="link link-primary"
+            >
+              License
+            </a>
+          </p>
+        </footer>
       </section>
     </Layouts.app>
     """

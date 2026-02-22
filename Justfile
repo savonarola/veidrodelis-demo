@@ -4,6 +4,9 @@ IMAGE := "vdr-demo"
 TAG := "latest"
 CONTAINER := "vdr-demo"
 PORT := "4000"
+REGISTRY_IMAGE := "localhost:32000/vdr-demo"
+DEPLOY_HOST := "rubybox.dev"
+DEPLOYMENT := "veidrodelis-demo-web"
 
 # Install deps and run local dev server
 run:
@@ -19,6 +22,19 @@ release:
 # Build 2-stage production image
 docker-build image=IMAGE tag=TAG:
     docker build -t {{image}}:{{tag}} .
+
+# Tag image for registry
+docker-tag registry_image=REGISTRY_IMAGE image=IMAGE tag=TAG: (docker-build image tag)
+    docker tag {{image}}:{{tag}} {{registry_image}}:{{tag}}
+
+# Push image to registry
+docker-push registry_image=REGISTRY_IMAGE image=IMAGE tag=TAG: (docker-tag registry_image image tag)
+    docker tag {{image}}:{{tag}} {{registry_image}}:{{tag}}
+    docker push {{registry_image}}:{{tag}}
+
+# Push image and restart Kubernetes deployment
+deploy deploy_host=DEPLOY_HOST deployment=DEPLOYMENT registry_image=REGISTRY_IMAGE image=IMAGE tag=TAG: (docker-push registry_image image tag)
+    ssh {{deploy_host}} microk8s.kubectl rollout restart deployment/{{deployment}}
 
 # Build compose stack images
 compose-build:

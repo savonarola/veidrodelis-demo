@@ -8,12 +8,6 @@ import Config
 config :vdr_demo, VdrDemoWeb.Endpoint, cache_static_manifest: "priv/static/cache_manifest.json"
 
 # Force using SSL in production only when explicitly enabled at build time.
-config :vdr_demo, VdrDemoWeb.Endpoint,
-  force_ssl: [
-    rewrite_on: [:x_forwarded_proto],
-    exclude: ["localhost", "127.0.0.1", "box2:4000", "box2"]
-  ]
-
 # Do not print debug messages in production
 config :logger, level: :info
 
