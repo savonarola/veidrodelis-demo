@@ -180,10 +180,7 @@ defmodule VdrDemoWeb.HomeLive do
   @impl true
   def handle_event("update_name", %{"name" => name}, socket) do
     socket = assign(socket, :name, name)
-
-    if socket.assigns.client_id do
-      register_client(socket.assigns.client_id, name)
-    end
+    register_client(socket.assigns.client_id, name)
 
     {:noreply, socket}
   end
@@ -220,11 +217,7 @@ defmodule VdrDemoWeb.HomeLive do
     {:noreply, assign(socket, :refresh_timer_ref, schedule_refresh())}
   end
 
-  def handle_info({@clients_watch_ref, %Vdr.WatchEvent.Init{}}, socket) do
-    {:noreply, refresh_connected_clients(socket)}
-  end
-
-  def handle_info({@clients_watch_ref, %Vdr.WatchEvent.Update{}}, socket) do
+  def handle_info({@clients_watch_ref, _event}, socket) do
     {:noreply, refresh_connected_clients(socket)}
   end
 

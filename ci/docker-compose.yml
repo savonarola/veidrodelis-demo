@@ -1,0 +1,80 @@
+services:
+  valkey:
+    image: valkey/valkey:9-alpine
+    command: ["valkey-server", "--save", "", "--appendonly", "no"]
+    expose:
+      - "6379"
+
+  app1:
+    hostname: app1
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    image: vdr-demo:compose
+    environment:
+      PHX_SERVER: "true"
+      PHX_HOST: ${PHX_HOST:-localhost}
+      PHX_SCHEME: ${PHX_SCHEME:-http}
+      PHX_URL_PORT: ${PHX_URL_PORT:-4000}
+      PORT: "4000"
+      SECRET_KEY_BASE: "dev_only_secret_key_base_change_me_please_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+      VALKEY_HOST: valkey
+      VALKEY_PORT: "6379"
+      RELEASE_DISTRIBUTION: sname
+      RELEASE_COOKIE: "vdr_demo_cookie"
+      RELEASE_NODE: "app1"
+    depends_on:
+      - valkey
+    expose:
+      - "4000"
+
+  app2:
+    hostname: app2
+    image: vdr-demo:compose
+    environment:
+      PHX_SERVER: "true"
+      PHX_HOST: ${PHX_HOST:-localhost}
+      PHX_SCHEME: ${PHX_SCHEME:-http}
+      PHX_URL_PORT: ${PHX_URL_PORT:-4000}
+      PORT: "4000"
+      SECRET_KEY_BASE: "dev_only_secret_key_base_change_me_please_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+      VALKEY_HOST: valkey
+      VALKEY_PORT: "6379"
+      RELEASE_DISTRIBUTION: sname
+      RELEASE_COOKIE: "vdr_demo_cookie"
+      RELEASE_NODE: "app2"
+    depends_on:
+      - valkey
+    expose:
+      - "4000"
+
+  app3:
+    hostname: app3
+    image: vdr-demo:compose
+    environment:
+      PHX_SERVER: "true"
+      PHX_HOST: ${PHX_HOST:-localhost}
+      PHX_SCHEME: ${PHX_SCHEME:-http}
+      PHX_URL_PORT: ${PHX_URL_PORT:-4000}
+      PORT: "4000"
+      SECRET_KEY_BASE: "dev_only_secret_key_base_change_me_please_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+      VALKEY_HOST: valkey
+      VALKEY_PORT: "6379"
+      RELEASE_DISTRIBUTION: sname
+      RELEASE_COOKIE: "vdr_demo_cookie"
+      RELEASE_NODE: "app3"
+    depends_on:
+      - valkey
+    expose:
+      - "4000"
+
+  nginx:
+    image: nginx:1.27-alpine
+    depends_on:
+      - app1
+      - app2
+      - app3
+    ports:
+      - "4000:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro

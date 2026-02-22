@@ -1,0 +1,10 @@
+.git
+.gitignore
+_build
+deps
+assets/node_modules
+.coverage
+.elixir_ls
+.lexical
+.env
+.DS_Store

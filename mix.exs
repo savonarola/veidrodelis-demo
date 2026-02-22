@@ -75,6 +75,7 @@ defmodule VdrDemo.MixProject do
       "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
       "assets.build": ["compile", "tailwind vdr_demo", "esbuild vdr_demo"],
       "assets.deploy": [
+        "compile",
         "tailwind vdr_demo --minify",
         "esbuild vdr_demo --minify",
         "phx.digest"
